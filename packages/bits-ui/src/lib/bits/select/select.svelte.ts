@@ -85,6 +85,7 @@ interface SelectBaseRootStateOpts
 			items: { value: string; label: string; disabled?: boolean }[];
 			allowDeselect: boolean;
 			onOpenChangeComplete: OnChangeFn<boolean>;
+			clearInputOnSelect?: boolean;
 		}>,
 		WritableBoxedValues<{
 			open: boolean;
@@ -252,7 +253,14 @@ export class SelectSingleRootState extends SelectBaseRootState {
 
 	toggleItem(itemValue: string, itemLabel: string = itemValue) {
 		this.opts.value.current = this.includesItem(itemValue) ? "" : itemValue;
-		this.opts.inputValue.current = itemLabel;
+		// Handle inputValue based on clearInputOnSelect prop
+		if (this.root.opts.clearInputOnSelect?.current) {
+			// Clear the input when clearInputOnSelect is true
+			this.opts.inputValue.current = "";
+		} else {
+			// Set to item label when clearInputOnSelect is false (default behavior)
+			this.opts.inputValue.current = itemLabel;
+		}
 	}
 
 	setInitialHighlightedNode() {
@@ -318,7 +326,14 @@ class SelectMultipleRootState extends SelectBaseRootState {
 		} else {
 			this.opts.value.current = [...this.opts.value.current, itemValue];
 		}
-		this.opts.inputValue.current = itemLabel;
+		// Handle inputValue based on clearInputOnSelect prop
+		if (this.root.opts.clearInputOnSelect?.current) {
+			// Clear the input when clearInputOnSelect is true
+			this.opts.inputValue.current = "";
+		} else {
+			// Set to item label when clearInputOnSelect is false (default behavior)
+			this.opts.inputValue.current = itemLabel;
+		}
 	}
 
 	setInitialHighlightedNode() {
@@ -354,6 +369,7 @@ interface SelectRootStateOpts
 			items: { value: string; label: string; disabled?: boolean }[];
 			allowDeselect: boolean;
 			onOpenChangeComplete: OnChangeFn<boolean>;
+			clearInputOnSelect?: boolean;
 		}>,
 		WritableBoxedValues<{
 			open: boolean;

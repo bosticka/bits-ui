@@ -18,6 +18,15 @@ export type ComboboxBaseRootPropsWithoutHTML = Omit<
 	 * when the value changes outside of Bits UI.
 	 */
 	inputValue?: string;
+
+	/**
+	 * Whether to clear the input value when an item is selected.
+	 * When true, the input will remain empty after selection,
+	 * allowing users to continue searching.
+	 *
+	 * @default false
+	 */
+	clearInputOnSelect?: boolean;
 };
 
 export type ComboboxSingleRootPropsWithoutHTML = ComboboxBaseRootPropsWithoutHTML &
